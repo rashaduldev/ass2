@@ -5,8 +5,8 @@ const productRoute=Router();
 
 productRoute.post('/api/create-products',productController.createProduct)
 productRoute.get('/api/products',productController.getProduct)
-productRoute.get('/api/:productId',productController.getSingleProduct)
-productRoute.put('/api/:productId',productController.UpdateProduct)
-productRoute.delete('/api/:productId',productController.deleteProduct)
+productRoute.get('/api/products/:productId',productController.getSingleProduct)
+productRoute.put('/api/products/:productId',productController.UpdateProduct)
+productRoute.delete('/api/products/:productId',productController.deleteProduct)
 
 export default productRoute;
