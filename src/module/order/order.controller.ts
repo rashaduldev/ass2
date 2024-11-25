@@ -3,7 +3,7 @@ import Product from "../product/product.model";
 import Order from "./order.model";
 
 // Place an order
- const createOrder = async (req: Request, res: Response):Promise<any>=> {
+export const createOrder = async (req: Request, res: Response): Promise<any> => {
   const { email, product: productId, quantity, totalPrice } = req.body;
 
   try {
@@ -36,7 +36,7 @@ import Order from "./order.model";
       status: true,
       data: order,
     });
-  } catch (error:any) {
+  } catch (error: any) {
     return res.status(500).json({
       message: "Internal server error",
       status: false,
@@ -44,37 +44,3 @@ import Order from "./order.model";
     });
   }
 };
-
-// Calculate total revenue
-export const calculateRevenue = async (req: Request, res: Response): Promise<any> => {
-  try {
-    const revenue = await Order.aggregate([
-      {
-        $group: {
-          _id: null,
-          totalRevenue: { $sum: "$totalPrice" },
-        },
-      },
-    ]);
-
-    const totalRevenue = revenue[0]?.totalRevenue || 0;
-
-    return res.status(200).json({
-      message: "Revenue calculated successfully",
-      status: true,
-      data: { totalRevenue },
-    });
-  } catch (error:any) {
-    return res.status(500).json({
-      message: "Internal server error",
-      status: false,
-      error: error.message,
-    });
-  }
-};
-
- const orderColtroller={
-    createOrder,
-    calculateRevenue
-}
-export default orderColtroller;
