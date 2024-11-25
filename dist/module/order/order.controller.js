@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.calculateRevenue = void 0;
+exports.createOrder = void 0;
 const product_model_1 = __importDefault(require("../product/product.model"));
 const order_model_1 = __importDefault(require("./order.model"));
 // Place an order
@@ -52,36 +52,4 @@ const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         });
     }
 });
-// Calculate total revenue
-const calculateRevenue = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
-    try {
-        const revenue = yield order_model_1.default.aggregate([
-            {
-                $group: {
-                    _id: null,
-                    totalRevenue: { $sum: "$totalPrice" },
-                },
-            },
-        ]);
-        const totalRevenue = ((_a = revenue[0]) === null || _a === void 0 ? void 0 : _a.totalRevenue) || 0;
-        return res.status(200).json({
-            message: "Revenue calculated successfully",
-            status: true,
-            data: { totalRevenue },
-        });
-    }
-    catch (error) {
-        return res.status(500).json({
-            message: "Internal server error",
-            status: false,
-            error: error.message,
-        });
-    }
-});
-exports.calculateRevenue = calculateRevenue;
-const orderColtroller = {
-    createOrder,
-    calculateRevenue: exports.calculateRevenue
-};
-exports.default = orderColtroller;
+exports.createOrder = createOrder;
